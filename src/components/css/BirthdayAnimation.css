@@ -1,0 +1,60 @@
+.animation-container {
+    position: relative;
+    height: 100vh;
+    background-color: #C6AD94;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+  
+  .man {
+    font-size: 4rem;
+    position: absolute;
+    left: -10%;
+    bottom: 20%;
+  }
+  
+  .glass {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    background: rgba(173, 216, 230, 0.5);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    font-weight: bold;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    transition: opacity 1s;
+  }
+  
+  .new-glass {
+    opacity: 0;
+    position: absolute;
+  }
+  
+  .countdown {
+    position: absolute;
+    bottom: 10%;
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #463239;
+  }
+  
+  .next-button {
+    opacity: 0;
+    position: absolute;
+    bottom: 5%;
+    padding: 10px 20px;
+    font-size: 1.5rem;
+    background: #ED6B86;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: opacity 0.3s;
+  }
+  
