@@ -1,18 +1,32 @@
+// Enhanced App.js
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { gsap } from "gsap";
+import { useGSAP } from "@gsap/react";
+// import "./css/App.css";
 
 export function App() {
   const targetDate = new Date("March 23, 2025 00:00:00").getTime();
   const navigate = useNavigate();
   const [currentTime, setCurrentTime] = useState(new Date());
-  const [timeLeft, setTimeLeft] = useState(targetDate - new Date().getTime());
+  const [timeLeft, setTimeLeft] = useState(targetDate - Date.now());
   const [showEnter, setShowEnter] = useState(false);
+
+  useGSAP(() => {
+    gsap.from("h1, h2, p", {
+      duration: 1,
+      y: 50,
+      opacity: 0,
+      stagger: 0.2,
+      ease: "power2.out"
+    });
+  });
 
   useEffect(() => {
     const timer = setInterval(() => {
-      const now = new Date();
-      setCurrentTime(now);
-      const timeRemaining = targetDate - now.getTime();
+      const now = Date.now();
+      setCurrentTime(new Date(now));
+      const timeRemaining = targetDate - now;
       setTimeLeft(timeRemaining);
 
       if (timeRemaining <= 0) {
@@ -33,37 +47,33 @@ export function App() {
   };
 
   return (
-    <div style={{ 
-      display: "flex", 
-      flexDirection: "column", 
-      alignItems: "center", 
-      justifyContent: "center", 
-      height: "100vh", 
-      background: "#C6AD94",
-      color: "#463239",
-      fontFamily: "Arial, sans-serif"
-    }}>
-      <h1 style={{ fontSize: "2rem" }}>Current Time</h1>
-      <p style={{ fontSize: "1.5rem" }}>{currentTime.toLocaleTimeString()}</p>
+    <div className="countdown-container">
+      <div className="time-display">
+        <h1 className="time-text">{currentTime.toLocaleTimeString()}</h1>
+        <div className="progress-bar">
+          <div 
+            className="progress-fill"
+            style={{ width: `${(1 - timeLeft/(targetDate - Date.now()))*100}%` }}
+          ></div>
+        </div>
+      </div>
       
-      <h2 style={{ fontSize: "2rem", marginTop: "20px" }}>Countdown to Parth's Birthday</h2>
-      <p style={{ fontSize: "2rem", fontWeight: "bold" }}>{formatTime(timeLeft)}</p>
+      <h2 className="countdown-title">Countdown to Parth's Birthday</h2>
+      <p className="countdown-timer">{formatTime(timeLeft)}</p>
       
       {showEnter && (
-        <button style={{
-          marginTop: "20px",
-          padding: "10px 20px",
-          fontSize: "1.5rem",
-          background: "#ED6B86",
-          color: "white",
-          border: "none",
-          cursor: "pointer",
-          borderRadius: "10px",
-          transition: "0.3s",
-        }} 
-        onClick={() => navigate("/birthday-animation")}
+        <button 
+          className="enter-button"
+          onClick={() => {
+            gsap.to(".countdown-container > *", {
+              opacity: 0,
+              y: -50,
+              stagger: 0.1,
+              onComplete: () => navigate("/birthday-animation")
+            });
+          }}
         >
-          Enter
+          Enter Celebration
         </button>
       )}
     </div>
